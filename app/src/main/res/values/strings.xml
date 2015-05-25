@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Android Clean Code</string>
+    <string name="app_name">Jokes</string>
+
+    <string name="title_activity_form">Jokes</string>
+    <string name="firstName">First name</string>
+    <string name="lastName">Last name</string>
+    <string name="title_activity_list">List of Jokes</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

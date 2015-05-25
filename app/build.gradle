@@ -17,9 +17,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.1.1'
+
+    def lib = parent.ext
+
+    compile lib.androidSupportV7
+    compile lib.butterknife
+    compile lib.dagger
+    compile lib.jacksonDataBind
+    compile lib.okhttp
+    compile lib.pathQueue
+    compile lib.retrofit
+
+    provided lib.daggerCompiler
+
+    compile project(':data')
+    compile project(':domain')
+    compile project(':presentation')
+    compile project(':repository')
 }

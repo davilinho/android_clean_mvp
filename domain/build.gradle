@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+dependencies {
+
+    def lib = parent.ext
+
+    compile lib.javaxAnnotation
+    compile lib.otto
+}
