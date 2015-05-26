@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.wtransnet.app.cleancode.app.common.constants.IntentValuesConstants;
-import com.wtransnet.app.cleancode.app.modules.jokes.JokesListActivity;
-import com.wtransnet.app.cleancode.presentation.bean.Name;
+import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListActivity;
+import com.wtransnet.app.cleancode.domain.entities.Name;
 
 /**
  * Class used to navigate through the aplication

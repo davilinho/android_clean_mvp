@@ -2,13 +2,17 @@ package com.wtransnet.app.cleancode.domain.interactors.core;
 
 public class BaseEvent {
 
-  private Throwable error;
+    private Throwable error = null;
 
-  public Throwable getError() {
-    return error;
-  }
+    public Throwable getError() {
+        return error;
+    }
 
-  public void setError(Throwable error) {
-    this.error = error;
-  }
+    public void setError(Throwable error) {
+        this.error = error;
+    }
+
+    public boolean hasError() {
+        return error != null;
+    }
 }

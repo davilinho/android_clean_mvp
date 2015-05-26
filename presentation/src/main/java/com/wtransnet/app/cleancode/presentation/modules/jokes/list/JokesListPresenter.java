@@ -1,20 +1,20 @@
 package com.wtransnet.app.cleancode.presentation.modules.jokes.list;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.wtransnet.app.cleancode.domain.interactors.core.InteractorInvoker;
+import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesEvent;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
-import com.wtransnet.app.cleancode.presentation.bean.Name;
-
-import javax.inject.Inject;
+import com.wtransnet.app.cleancode.domain.entities.Name;
 
 /**
  * Presenter para el formulario
  */
 public class JokesListPresenter {
 
-    @Inject Bus bus;
-    @Inject InteractorInvoker invoker;
-    @Inject LoadJokesInteractor loadJokesInteractor;
+    private final Bus bus;
+    private final InteractorInvoker invoker;
+    private final LoadJokesInteractor loadJokesInteractor;
 
     private JokesListView view;
 
@@ -37,6 +37,17 @@ public class JokesListPresenter {
     }
 
     public void loadJokesList(Name name) {
+        loadJokesInteractor.setData(name);
         invoker.execute(loadJokesInteractor);
+    }
+
+    @Subscribe
+    public void loadJokes(LoadJokesEvent event) {
+
+        if (event.hasError()) {
+            view.showLoadJokesError();
+        } else {
+            view.refreshJokesList(event.getJokes());
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.wtransnet.app.cleancode.app.modules.jokes;
+package com.wtransnet.app.cleancode.app.modules.jokes.form;
 
 import android.os.Bundle;
 import android.widget.EditText;
@@ -6,7 +6,7 @@ import android.widget.EditText;
 import com.wtransnet.app.cleancode.R;
 import com.wtransnet.app.cleancode.app.common.nav.Navigator;
 import com.wtransnet.app.cleancode.app.core.activity.BaseActivity;
-import com.wtransnet.app.cleancode.presentation.bean.Name;
+import com.wtransnet.app.cleancode.domain.entities.Name;
 
 import javax.inject.Inject;
 

@@ -8,8 +8,7 @@ import java.util.Arrays;
 public class RestResponse {
 
     private String type;
-    private JokeResponse[] value;
-    private String[] categories;
+    private JokeEntity[] value;
 
     public String getType() {
         return type;
@@ -19,20 +18,12 @@ public class RestResponse {
         this.type = type;
     }
 
-    public JokeResponse[] getValue() {
+    public JokeEntity[] getValue() {
         return value;
     }
 
-    public void setValue(JokeResponse[] value) {
+    public void setValue(JokeEntity[] value) {
         this.value = value;
-    }
-
-    public String[] getCategories() {
-        return categories;
-    }
-
-    public void setCategories(String[] categories) {
-        this.categories = categories;
     }
 
     @Override
@@ -40,7 +31,6 @@ public class RestResponse {
         return "RestResponse{" +
                 "type='" + type + '\'' +
                 ", value=" + Arrays.toString(value) +
-                ", categories=" + Arrays.toString(categories) +
                 '}';
     }
 }

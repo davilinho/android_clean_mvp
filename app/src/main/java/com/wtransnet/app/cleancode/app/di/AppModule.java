@@ -1,6 +1,8 @@
 package com.wtransnet.app.cleancode.app.di;
 
 import android.app.Application;
+import android.content.Context;
+import android.view.LayoutInflater;
 
 import com.path.android.jobqueue.JobManager;
 import com.squareup.otto.Bus;
@@ -8,11 +10,13 @@ import com.wtransnet.app.cleancode.app.common.nav.Navigator;
 import com.wtransnet.app.cleancode.app.core.application.JokesApplication;
 import com.wtransnet.app.cleancode.app.core.eventbus.AndroidBus;
 import com.wtransnet.app.cleancode.app.domain.InteractorInvokerImp;
-import com.wtransnet.app.cleancode.app.modules.jokes.JokesFormActivity;
-import com.wtransnet.app.cleancode.app.modules.jokes.JokesListActivity;
+import com.wtransnet.app.cleancode.app.modules.jokes.form.JokesFormActivity;
+import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListActivity;
+import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListAdapter;
 import com.wtransnet.app.cleancode.app.net.OkHttpClientFactory;
 import com.wtransnet.app.cleancode.app.net.RetrofitJacksonConverter;
 import com.wtransnet.app.cleancode.data.rest.datasource.JokesRestDataSource;
+import com.wtransnet.app.cleancode.data.rest.mapper.JokeDataMapper;
 import com.wtransnet.app.cleancode.data.rest.service.JokesRestService;
 import com.wtransnet.app.cleancode.domain.interactors.core.InteractorInvoker;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
@@ -36,6 +40,7 @@ import retrofit.client.OkClient;
             JokesApplication.class,
             JokesFormActivity.class,
             JokesListActivity.class,
+            JokesListAdapter.class,
             JokesListPresenter.class,
             LoadJokesInteractor.class
     }
@@ -48,7 +53,13 @@ public class AppModule {
         this.app = app;
     }
 
-    @Provides @Singleton Bus provideEventbus() {
+    @Provides @Singleton
+    LayoutInflater provideLayoutInflater() {
+        return (LayoutInflater) app.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    @Provides @Singleton
+    Bus provideEventbus() {
         return new AndroidBus();
     }
 
@@ -57,7 +68,8 @@ public class AppModule {
         return new Navigator();
     }
 
-    @Provides @Singleton JobManager provideJobManager() {
+    @Provides @Singleton
+    JobManager provideJobManager() {
         return new JobManager(app);
     }
 
@@ -69,10 +81,12 @@ public class AppModule {
     // Services
 
     @Provides @Singleton
-    JokesRestService provideApiService() {
+    JokesRestService provideRestService() {
+
+        JokesRestService restService = null;
 
         try {
-            return new RestAdapter.Builder()
+            restService = new RestAdapter.Builder()
                     .setEndpoint("http://api.icndb.com/")
                     .setConverter(new RetrofitJacksonConverter())
                     .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -84,14 +98,21 @@ public class AppModule {
             e.printStackTrace();
         }
 
-        return null;
+        return restService;
+    }
+
+    // Mappers
+
+    @Provides @Singleton
+    JokeDataMapper provideJokeDataMapper() {
+        return new JokeDataMapper();
     }
 
     // DataSources
 
     @Provides @Singleton
-    JokesDataSource provideJokesDataSource(JokesRestService jokesRestService) {
-        return new JokesRestDataSource(jokesRestService);
+    JokesDataSource provideJokesDataSource(JokesRestService jokesRestService, JokeDataMapper jokeDataMapper) {
+        return new JokesRestDataSource(jokesRestService, jokeDataMapper);
     }
 
     // Repositories

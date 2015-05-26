@@ -1,4 +1,4 @@
-package com.wtransnet.app.cleancode.presentation.bean;
+package com.wtransnet.app.cleancode.domain.entities;
 
 import java.io.Serializable;
 
@@ -31,5 +31,13 @@ public class Name implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Name{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }
