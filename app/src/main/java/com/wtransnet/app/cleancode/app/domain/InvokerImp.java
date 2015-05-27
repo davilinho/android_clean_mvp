@@ -26,6 +26,6 @@ public class InvokerImp<T> implements Invoker<T> {
 
     private Job interactorToJob(T data, Interactor interactor, Priority priority) {
         Params params = new Params(priority.getPriorityValue());
-        return new InteractorJobImp<T>(data, params, interactor);
+        return new JobImp<T>(data, params, interactor);
     }
 }
