@@ -10,6 +10,7 @@ import com.wtransnet.app.cleancode.app.common.nav.Navigator;
 import com.wtransnet.app.cleancode.app.core.application.JokesApplication;
 import com.wtransnet.app.cleancode.app.core.eventbus.AndroidBus;
 import com.wtransnet.app.cleancode.app.domain.InteractorInvokerImp;
+import com.wtransnet.app.cleancode.app.modules.jokes.detail.JokesDetailActivity;
 import com.wtransnet.app.cleancode.app.modules.jokes.form.JokesFormActivity;
 import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListActivity;
 import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListAdapter;
@@ -19,8 +20,10 @@ import com.wtransnet.app.cleancode.data.rest.datasource.JokesRestDataSource;
 import com.wtransnet.app.cleancode.data.rest.mapper.JokeDataMapper;
 import com.wtransnet.app.cleancode.data.rest.service.JokesRestService;
 import com.wtransnet.app.cleancode.domain.interactors.core.InteractorInvoker;
+import com.wtransnet.app.cleancode.domain.interactors.jokes.load.GetJokeInteractor;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
 import com.wtransnet.app.cleancode.domain.repository.JokesRepository;
+import com.wtransnet.app.cleancode.presentation.modules.jokes.detail.JokeDetailPresenter;
 import com.wtransnet.app.cleancode.presentation.modules.jokes.list.JokesListPresenter;
 import com.wtransnet.app.cleancode.repository.jokes.JokesRepositoryImpl;
 import com.wtransnet.app.cleancode.repository.jokes.datasources.JokesDataSource;
@@ -40,9 +43,12 @@ import retrofit.client.OkClient;
             JokesApplication.class,
             JokesFormActivity.class,
             JokesListActivity.class,
+            JokesDetailActivity.class,
             JokesListAdapter.class,
             JokesListPresenter.class,
-            LoadJokesInteractor.class
+            JokeDetailPresenter.class,
+            LoadJokesInteractor.class,
+            GetJokeInteractor.class
     }
 )
 public class AppModule {
@@ -65,7 +71,7 @@ public class AppModule {
 
     @Provides @Singleton
     Navigator provideNavigator() {
-        return new Navigator();
+        return new Navigator(app.getApplicationContext());
     }
 
     @Provides @Singleton
@@ -129,10 +135,21 @@ public class AppModule {
         return new LoadJokesInteractor(bus, repository);
     }
 
+    @Provides @Singleton
+    GetJokeInteractor provideGetJokeInteractor(Bus bus, JokesRepository repository) {
+        return new GetJokeInteractor(bus, repository);
+    }
+
     // Presenters
 
     @Provides @Singleton
     JokesListPresenter provideJokesListPresenter(Bus bus, InteractorInvoker invoker, LoadJokesInteractor interactor) {
         return new JokesListPresenter(bus, invoker, interactor);
     }
+
+    @Provides @Singleton
+    JokeDetailPresenter provideJokeDetailPresenter(Bus bus, InteractorInvoker invoker, GetJokeInteractor interactor) {
+        return new JokeDetailPresenter(bus, invoker, interactor);
+    }
+
 }

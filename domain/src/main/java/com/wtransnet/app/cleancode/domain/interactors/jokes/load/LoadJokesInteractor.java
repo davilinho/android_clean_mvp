@@ -8,7 +8,7 @@ import com.wtransnet.app.cleancode.domain.repository.JokesRepository;
 /**
  * Interactor para la carga de los Jokes
  */
-public class LoadJokesInteractor implements Interactor {
+public class LoadJokesInteractor implements Interactor<Name> {
 
     private static final String FIRST_NAME = "Nuck";
     private static final String LAST_NAME  = "Chorris";
@@ -16,14 +16,15 @@ public class LoadJokesInteractor implements Interactor {
     private Bus bus;
     private JokesRepository repository;
 
-    private Name name;
-
     public LoadJokesInteractor(Bus bus, JokesRepository repository) {
         this.bus = bus;
         this.repository = repository;
     }
 
-    @Override public void execute() {
+    @Override
+    public void execute(Name name) {
+
+        prepareData(name);
 
         LoadJokesEvent event = new LoadJokesEvent();
 
@@ -36,7 +37,7 @@ public class LoadJokesInteractor implements Interactor {
         bus.post(event);
     }
 
-    public void setData(Name name) {
+    public void prepareData(Name name) {
 
         if (name.getFirstName().isEmpty()) {
             name.setFirstName(FIRST_NAME);
@@ -46,6 +47,6 @@ public class LoadJokesInteractor implements Interactor {
             name.setLastName(LAST_NAME);
         }
 
-        this.name = name;
     }
+
 }

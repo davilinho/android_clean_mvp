@@ -8,7 +8,7 @@ import com.wtransnet.app.cleancode.domain.interactors.core.Interactor;
 import com.wtransnet.app.cleancode.domain.interactors.core.InteractorInvoker;
 import com.wtransnet.app.cleancode.domain.interactors.core.InteractorPriority;
 
-public class InteractorInvokerImp implements InteractorInvoker {
+public class InteractorInvokerImp<T> implements InteractorInvoker<T> {
 
     private JobManager jobManager;
 
@@ -16,16 +16,16 @@ public class InteractorInvokerImp implements InteractorInvoker {
         this.jobManager = jobManager;
     }
 
-    @Override public void execute(Interactor interactor) {
-        execute(interactor, InteractorPriority.MEDIUM);
+    @Override public void execute(T data, Interactor interactor) {
+        execute(data, interactor, InteractorPriority.MEDIUM);
     }
 
-    @Override public void execute(Interactor interactor, InteractorPriority priority) {
-        jobManager.addJob(interactorToJob(interactor, priority));
+    @Override public void execute(T data, Interactor interactor, InteractorPriority priority) {
+        jobManager.addJob(interactorToJob(data, interactor, priority));
     }
 
-    private Job interactorToJob(Interactor interactor, InteractorPriority priority) {
+    private Job interactorToJob(T data, Interactor interactor, InteractorPriority priority) {
         Params params = new Params(priority.getPriorityValue());
-        return new InteractorJobImp(params, interactor);
+        return new InteractorJobImp<T>(data, params, interactor);
     }
 }

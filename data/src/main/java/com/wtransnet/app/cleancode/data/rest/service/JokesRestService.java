@@ -1,8 +1,10 @@
 package com.wtransnet.app.cleancode.data.rest.service;
 
-import com.wtransnet.app.cleancode.data.rest.entities.RestResponse;
+import com.wtransnet.app.cleancode.data.rest.entities.JokeDetailResponse;
+import com.wtransnet.app.cleancode.data.rest.entities.JokesListResponse;
 
 import retrofit.http.GET;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -11,5 +13,8 @@ import retrofit.http.Query;
 public interface JokesRestService {
 
     @GET("/jokes/random/20")
-    RestResponse loadJokes(@Query("firstName") String firstName, @Query("lastName") String lastName);
+    JokesListResponse loadJokes(@Query("firstName") String firstName, @Query("lastName") String lastName);
+
+    @GET("/jokes/{id}")
+    JokeDetailResponse getJoke(@Path("id") String id);
 }

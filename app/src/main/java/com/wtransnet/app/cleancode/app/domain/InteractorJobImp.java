@@ -4,30 +4,33 @@ import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
 import com.wtransnet.app.cleancode.domain.interactors.core.Interactor;
 
-public class InteractorJobImp extends Job {
+public class InteractorJobImp<T> extends Job {
 
-  private Interactor interactor;
+    private T data;
 
-  public InteractorJobImp(Params params, Interactor interactor) {
-    super(params);
-    this.interactor = interactor;
-  }
+    private Interactor interactor;
 
-  @Override
-  public void onAdded() {
-  }
+    public InteractorJobImp(T data, Params params, Interactor interactor) {
+        super(params);
+        this.data = data;
+        this.interactor = interactor;
+    }
 
-  @Override
-  public void onRun() throws Throwable {
-    interactor.execute();
-  }
+    @Override
+    public void onAdded() {
+    }
 
-  @Override
-  protected void onCancel() {
-  }
+    @Override
+    public void onRun() throws Throwable {
+    interactor.execute(data);
+    }
 
-  @Override
-  protected boolean shouldReRunOnThrowable(Throwable throwable) {
+    @Override
+    protected void onCancel() {
+    }
+
+    @Override
+    protected boolean shouldReRunOnThrowable(Throwable throwable) {
     return false;
   }
 }

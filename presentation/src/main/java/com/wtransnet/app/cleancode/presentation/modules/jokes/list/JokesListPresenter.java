@@ -37,8 +37,7 @@ public class JokesListPresenter {
     }
 
     public void loadJokesList(Name name) {
-        loadJokesInteractor.setData(name);
-        invoker.execute(loadJokesInteractor);
+        invoker.execute(name, loadJokesInteractor);
     }
 
     @Subscribe
@@ -50,4 +49,5 @@ public class JokesListPresenter {
             view.refreshJokesList(event.getJokes());
         }
     }
+
 }

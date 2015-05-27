@@ -34,6 +34,12 @@ public class JokesApplication  extends Application {
     }
 
     public ObjectGraph getObjectGraph() {
+
+        if (objectGraph == null) {
+            objectGraph = ObjectGraph.create(new AppModule(this));
+        }
+
         return objectGraph;
+
     }
 }

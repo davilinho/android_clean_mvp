@@ -1,6 +1,7 @@
 package com.wtransnet.app.cleancode.data.rest.datasource;
 
-import com.wtransnet.app.cleancode.data.rest.entities.RestResponse;
+import com.wtransnet.app.cleancode.data.rest.entities.JokeDetailResponse;
+import com.wtransnet.app.cleancode.data.rest.entities.JokesListResponse;
 import com.wtransnet.app.cleancode.data.rest.mapper.JokeDataMapper;
 import com.wtransnet.app.cleancode.data.rest.service.JokesRestService;
 import com.wtransnet.app.cleancode.domain.entities.Joke;
@@ -24,17 +25,34 @@ public class JokesRestDataSource implements JokesDataSource {
         this.mapper = mapper;
     }
 
-    @Override public List<Joke> loadJokes(String firstName, String lastName) throws LoadJokesException {
+    @Override
+    public List<Joke> loadJokes(String firstName, String lastName) throws LoadJokesException {
 
         List<Joke> jokes = null;
 
-        final RestResponse restResponse = restService.loadJokes(firstName, lastName);
+        final JokesListResponse restResponse = restService.loadJokes(firstName, lastName);
 
         if (SUCCESS.equals(restResponse.getType())) {
-
             jokes = mapper.transform(restResponse.getValue());
         }
 
         return jokes;
+
     }
+
+    @Override
+    public Joke getJoke(String id) throws LoadJokesException {
+
+        Joke joke = null;
+
+        final JokeDetailResponse restResponse = restService.getJoke(id);
+
+        if (SUCCESS.equals(restResponse.getType())) {
+            joke = mapper.transform(restResponse.getValue());
+        }
+
+        return joke;
+
+    }
+
 }

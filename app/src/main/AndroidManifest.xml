@@ -24,6 +24,10 @@
             android:name=".app.modules.jokes.list.JokesListActivity"
             android:label="@string/title_activity_list" >
         </activity>
+        <activity
+            android:name=".app.modules.jokes.detail.JokesDetailActivity"
+            android:label="@string/title_activity_detail" >
+        </activity>
 
     </application>
 

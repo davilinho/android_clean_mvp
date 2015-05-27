@@ -6,4 +6,6 @@ package com.wtransnet.app.cleancode.app.common.constants;
 public class IntentValuesConstants {
 
     public static final String NAME = "NAME";
+
+    public static final String ID = "ID";
 }

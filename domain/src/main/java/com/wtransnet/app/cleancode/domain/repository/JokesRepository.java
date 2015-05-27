@@ -12,4 +12,6 @@ import java.util.List;
 public interface JokesRepository {
 
     List<Joke> loadJokes(Name name) throws LoadJokesException;
+
+    Joke getJoke(String message) throws LoadJokesException;
 }

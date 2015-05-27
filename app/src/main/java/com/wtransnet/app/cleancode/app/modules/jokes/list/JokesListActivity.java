@@ -1,11 +1,15 @@
 package com.wtransnet.app.cleancode.app.modules.jokes.list;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.nispok.snackbar.Snackbar;
 import com.wtransnet.app.cleancode.R;
+import com.wtransnet.app.cleancode.app.common.nav.Navigator;
 import com.wtransnet.app.cleancode.app.core.activity.BaseActivity;
 import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.domain.entities.Name;
@@ -25,7 +29,7 @@ import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConst
 /**
  * Actividad para el listado de Jokes
  */
-public class JokesListActivity extends BaseActivity implements JokesListView {
+public class JokesListActivity extends BaseActivity implements JokesListView, AdapterView.OnItemClickListener {
 
     @Inject JokesListPresenter presenter;
 
@@ -67,6 +71,7 @@ public class JokesListActivity extends BaseActivity implements JokesListView {
         itemsList = new ArrayList<>();
         adapter = new JokesListAdapter(this, itemsList);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
     }
 
     private void initializeData(Bundle savedInstanceState) {
@@ -107,4 +112,15 @@ public class JokesListActivity extends BaseActivity implements JokesListView {
     public void showLoadJokesError() {
         Toast.makeText(this, R.string.error_loading_jokes, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        navigator.navigateToJokeDetail(String.valueOf(((Joke) parent.getItemAtPosition(position)).getId()));
+    }
+
+    @Override
+    public void showSnackBar() { }
+
+    @Override
+    public void hideSnackBar() { }
 }

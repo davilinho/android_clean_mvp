@@ -1,5 +1,7 @@
 package com.wtransnet.app.cleancode.domain.interactors.core;
 
-public interface Interactor {
-  public void execute();
+public interface Interactor<T> {
+
+    void execute(T data);
+
 }

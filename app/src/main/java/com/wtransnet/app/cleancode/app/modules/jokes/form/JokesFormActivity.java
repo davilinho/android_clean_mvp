@@ -18,8 +18,6 @@ import butterknife.OnClick;
  */
 public class JokesFormActivity extends BaseActivity {
 
-    @Inject Navigator navigator;
-
     @InjectView(R.id.editTxtFirstName) EditText editTxtFirstName;
     @InjectView(R.id.editTxtLastName)  EditText editTxtLastName;
 
@@ -33,7 +31,7 @@ public class JokesFormActivity extends BaseActivity {
 
     @OnClick(R.id.btnGetJokes)
     public void navigateToListJokes() {
-        navigator.navigateToJokesList(this, getName());
+        navigator.navigateToJokesList(getName());
     }
 
     private Name getName() {

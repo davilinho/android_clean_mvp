@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Bean que contiene los datos de respuesta de una petición REST de Jokes
  */
-public class RestResponse {
+public class JokesListResponse {
 
     private String type;
     private JokeEntity[] value;
@@ -28,7 +28,7 @@ public class RestResponse {
 
     @Override
     public String toString() {
-        return "RestResponse{" +
+        return "JokesListResponse{" +
                 "type='" + type + '\'' +
                 ", value=" + Arrays.toString(value) +
                 '}';

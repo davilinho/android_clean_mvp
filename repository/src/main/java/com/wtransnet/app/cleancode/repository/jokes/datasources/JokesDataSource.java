@@ -10,5 +10,7 @@ import java.util.List;
  */
 public interface JokesDataSource {
 
-    public List<Joke> loadJokes(String firstName, String lastName) throws LoadJokesException;
+    List<Joke> loadJokes(String firstName, String lastName) throws LoadJokesException;
+
+    Joke getJoke(String id) throws LoadJokesException;
 }
