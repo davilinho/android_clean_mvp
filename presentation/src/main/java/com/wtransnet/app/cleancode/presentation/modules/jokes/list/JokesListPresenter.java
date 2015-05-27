@@ -2,7 +2,7 @@ package com.wtransnet.app.cleancode.presentation.modules.jokes.list;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import com.wtransnet.app.cleancode.domain.interactors.core.InteractorInvoker;
+import com.wtransnet.app.cleancode.domain.interactors.core.Invoker;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesEvent;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
 import com.wtransnet.app.cleancode.domain.entities.Name;
@@ -13,12 +13,12 @@ import com.wtransnet.app.cleancode.domain.entities.Name;
 public class JokesListPresenter {
 
     private final Bus bus;
-    private final InteractorInvoker invoker;
+    private final Invoker invoker;
     private final LoadJokesInteractor loadJokesInteractor;
 
     private JokesListView view;
 
-    public JokesListPresenter(Bus bus, InteractorInvoker invoker, LoadJokesInteractor loadJokesInteractor) {
+    public JokesListPresenter(Bus bus, Invoker invoker, LoadJokesInteractor loadJokesInteractor) {
         this.bus = bus;
         this.invoker = invoker;
         this.loadJokesInteractor = loadJokesInteractor;

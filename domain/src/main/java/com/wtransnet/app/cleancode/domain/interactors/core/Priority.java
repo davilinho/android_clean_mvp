@@ -1,6 +1,6 @@
 package com.wtransnet.app.cleancode.domain.interactors.core;
 
-public enum InteractorPriority {
+public enum Priority {
   LOW(1),
   MEDIUM(50),
   HIGH(100),
@@ -8,7 +8,7 @@ public enum InteractorPriority {
 
   private int priority;
 
-  InteractorPriority(int priority) {
+  Priority(int priority) {
     this.priority = priority;
   }
 

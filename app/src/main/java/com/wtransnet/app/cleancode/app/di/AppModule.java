@@ -9,7 +9,7 @@ import com.squareup.otto.Bus;
 import com.wtransnet.app.cleancode.app.common.nav.Navigator;
 import com.wtransnet.app.cleancode.app.core.application.JokesApplication;
 import com.wtransnet.app.cleancode.app.core.eventbus.AndroidBus;
-import com.wtransnet.app.cleancode.app.domain.InteractorInvokerImp;
+import com.wtransnet.app.cleancode.app.domain.InvokerImp;
 import com.wtransnet.app.cleancode.app.modules.jokes.detail.JokesDetailActivity;
 import com.wtransnet.app.cleancode.app.modules.jokes.form.JokesFormActivity;
 import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListActivity;
@@ -19,7 +19,7 @@ import com.wtransnet.app.cleancode.app.net.RetrofitJacksonConverter;
 import com.wtransnet.app.cleancode.data.rest.datasource.JokesRestDataSource;
 import com.wtransnet.app.cleancode.data.rest.mapper.JokeDataMapper;
 import com.wtransnet.app.cleancode.data.rest.service.JokesRestService;
-import com.wtransnet.app.cleancode.domain.interactors.core.InteractorInvoker;
+import com.wtransnet.app.cleancode.domain.interactors.core.Invoker;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.GetJokeInteractor;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
 import com.wtransnet.app.cleancode.domain.repository.JokesRepository;
@@ -80,8 +80,8 @@ public class AppModule {
     }
 
     @Provides @Singleton
-    InteractorInvoker provideInteractorInvoker(JobManager jobManager) {
-        return new InteractorInvokerImp(jobManager);
+    Invoker provideInteractorInvoker(JobManager jobManager) {
+        return new InvokerImp(jobManager);
     }
 
     // Services
@@ -143,12 +143,12 @@ public class AppModule {
     // Presenters
 
     @Provides @Singleton
-    JokesListPresenter provideJokesListPresenter(Bus bus, InteractorInvoker invoker, LoadJokesInteractor interactor) {
+    JokesListPresenter provideJokesListPresenter(Bus bus, Invoker invoker, LoadJokesInteractor interactor) {
         return new JokesListPresenter(bus, invoker, interactor);
     }
 
     @Provides @Singleton
-    JokeDetailPresenter provideJokeDetailPresenter(Bus bus, InteractorInvoker invoker, GetJokeInteractor interactor) {
+    JokeDetailPresenter provideJokeDetailPresenter(Bus bus, Invoker invoker, GetJokeInteractor interactor) {
         return new JokeDetailPresenter(bus, invoker, interactor);
     }
 
