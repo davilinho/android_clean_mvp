@@ -1,7 +1,5 @@
 package com.wtransnet.app.cleancode.data.rest.entities;
 
-import java.util.Arrays;
-
 /**
  * Created by dmartin on 27/05/2015.
  */
@@ -28,10 +26,9 @@ public class JokeDetailResponse {
 
     @Override
     public String toString() {
-        return "JokesListResponse{" +
+        return "JokeDetailResponse{" +
                 "type='" + type + '\'' +
                 ", value=" + value +
                 '}';
     }
-
 }
