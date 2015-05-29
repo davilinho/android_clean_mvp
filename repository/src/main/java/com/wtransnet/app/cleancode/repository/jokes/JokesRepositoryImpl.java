@@ -2,7 +2,7 @@ package com.wtransnet.app.cleancode.repository.jokes;
 
 import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.domain.entities.Name;
-import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesException;
+import com.wtransnet.app.cleancode.domain.interactors.jokes.load.JokesException;
 import com.wtransnet.app.cleancode.domain.repository.JokesRepository;
 import com.wtransnet.app.cleancode.repository.jokes.datasources.JokesDataSource;
 
@@ -20,12 +20,12 @@ public class JokesRepositoryImpl implements JokesRepository {
     }
 
     @Override
-    public List<Joke> loadJokes(Name name) throws LoadJokesException {
+    public List<Joke> loadJokes(Name name) throws JokesException {
         return dataSource.loadJokes(name.getFirstName(), name.getLastName());
     }
 
     @Override
-    public Joke getJoke(String id) throws LoadJokesException {
+    public Joke getJoke(String id) throws JokesException {
         return dataSource.getJoke(id);
     }
 

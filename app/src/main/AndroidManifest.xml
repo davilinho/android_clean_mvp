@@ -22,11 +22,11 @@
         </activity>
         <activity
             android:name=".app.modules.jokes.list.JokesListActivity"
-            android:label="@string/title_activity_list" >
+            android:label="@string/titleActivityList" >
         </activity>
         <activity
             android:name=".app.modules.jokes.detail.JokesDetailActivity"
-            android:label="@string/title_activity_detail" >
+            android:label="@string/titleActivityDetail" >
         </activity>
 
     </application>

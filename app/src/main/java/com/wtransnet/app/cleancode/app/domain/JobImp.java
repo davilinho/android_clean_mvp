@@ -8,9 +8,9 @@ public class JobImp<T> extends Job {
 
     private T data;
 
-    private Interactor interactor;
+    private Interactor<T> interactor;
 
-    public JobImp(T data, Params params, Interactor interactor) {
+    public JobImp(T data, Params params, Interactor<T> interactor) {
         super(params);
         this.data = data;
         this.interactor = interactor;

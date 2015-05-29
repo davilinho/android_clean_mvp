@@ -8,6 +8,7 @@ import com.path.android.jobqueue.JobManager;
 import com.squareup.otto.Bus;
 import com.wtransnet.app.cleancode.app.common.nav.Navigator;
 import com.wtransnet.app.cleancode.app.core.application.JokesApplication;
+import com.wtransnet.app.cleancode.app.core.error.CommonErrorHandler;
 import com.wtransnet.app.cleancode.app.core.eventbus.AndroidBus;
 import com.wtransnet.app.cleancode.app.domain.InvokerImp;
 import com.wtransnet.app.cleancode.app.modules.jokes.detail.JokesDetailActivity;
@@ -19,6 +20,7 @@ import com.wtransnet.app.cleancode.app.net.RetrofitJacksonConverter;
 import com.wtransnet.app.cleancode.data.rest.datasource.JokesRestDataSource;
 import com.wtransnet.app.cleancode.data.rest.mapper.JokeDataMapper;
 import com.wtransnet.app.cleancode.data.rest.service.JokesRestService;
+import com.wtransnet.app.cleancode.domain.entities.Name;
 import com.wtransnet.app.cleancode.domain.interactors.core.Invoker;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.GetJokeInteractor;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
@@ -48,7 +50,8 @@ import retrofit.client.OkClient;
             JokesListPresenter.class,
             JokeDetailPresenter.class,
             LoadJokesInteractor.class,
-            GetJokeInteractor.class
+            GetJokeInteractor.class,
+            CommonErrorHandler.class
     }
 )
 public class AppModule {
@@ -80,7 +83,7 @@ public class AppModule {
     }
 
     @Provides @Singleton
-    Invoker provideInteractorInvoker(JobManager jobManager) {
+    Invoker provideInvoker(JobManager jobManager) {
         return new InvokerImp(jobManager);
     }
 
@@ -150,6 +153,13 @@ public class AppModule {
     @Provides @Singleton
     JokeDetailPresenter provideJokeDetailPresenter(Bus bus, Invoker invoker, GetJokeInteractor interactor) {
         return new JokeDetailPresenter(bus, invoker, interactor);
+    }
+
+    // Errors
+
+    @Provides @Singleton
+    CommonErrorHandler provideCommonErrorHandler() {
+        return new CommonErrorHandler();
     }
 
 }

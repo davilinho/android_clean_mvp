@@ -1,12 +1,14 @@
 package com.wtransnet.app.cleancode.domain.interactors.jokes.load;
 
 import com.squareup.otto.Bus;
-import com.wtransnet.app.cleancode.domain.entities.Name;
+import com.wtransnet.app.cleancode.domain.entities.Joke;
+import com.wtransnet.app.cleancode.domain.interactors.core.DataEvent;
 import com.wtransnet.app.cleancode.domain.interactors.core.Interactor;
 import com.wtransnet.app.cleancode.domain.repository.JokesRepository;
 
 /**
- * Created by dmartin on 27/05/2015.
+ * Component created on 27/05/2015.
+ * @author dmartin
  */
 public class GetJokeInteractor implements Interactor<String> {
 
@@ -21,11 +23,11 @@ public class GetJokeInteractor implements Interactor<String> {
     @Override
     public void execute(String data) {
 
-        GetJokeEvent event = new GetJokeEvent();
+        DataEvent<Joke> event = new DataEvent<>();
 
         try {
-            event.setJoke(repository.getJoke(data));
-        } catch(LoadJokesException ex) {
+            event.setData(repository.getJoke(data));
+        } catch(JokesException ex) {
             event.setError(ex);
         }
 

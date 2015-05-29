@@ -7,14 +7,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.nispok.snackbar.Snackbar;
 import com.wtransnet.app.cleancode.R;
-import com.wtransnet.app.cleancode.app.common.nav.Navigator;
-import com.wtransnet.app.cleancode.app.core.activity.BaseActivity;
+import com.wtransnet.app.cleancode.app.core.activity.AbstractActivity;
 import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.domain.entities.Name;
-import com.wtransnet.app.cleancode.presentation.modules.jokes.list.JokesListPresenter;
+import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
 import com.wtransnet.app.cleancode.presentation.modules.jokes.list.JokesListView;
+import com.wtransnet.app.cleancode.presentation.modules.jokes.list.JokesListPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +22,13 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 
-import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConstants.*;
+import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConstants.NAME;
 
 
 /**
  * Actividad para el listado de Jokes
  */
-public class JokesListActivity extends BaseActivity implements JokesListView, AdapterView.OnItemClickListener {
+public class JokesListActivity extends AbstractActivity implements JokesListView, AdapterView.OnItemClickListener {
 
     @Inject JokesListPresenter presenter;
 
@@ -42,7 +41,6 @@ public class JokesListActivity extends BaseActivity implements JokesListView, Ad
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter.attachView(this);
 
         initializeUi();
         initializeData(savedInstanceState);
@@ -51,6 +49,16 @@ public class JokesListActivity extends BaseActivity implements JokesListView, Ad
     @Override
     public int getContentView() {
         return R.layout.list;
+    }
+
+    @Override
+    protected String getToolbarTitle() {
+        return getResources().getString(R.string.titleActivityList);
+    }
+
+    @Override
+    protected AbstractPresenter<Name, List<Joke>, JokesListView> getPresenter() {
+        return presenter;
     }
 
     @Override
@@ -78,26 +86,15 @@ public class JokesListActivity extends BaseActivity implements JokesListView, Ad
 
         if (savedInstanceState == null) {
             name = (Name) getIntent().getSerializableExtra(NAME);
-            this.loadJokesList(name);
+            loadJokesList();
         } else {
             name = (Name) savedInstanceState.getSerializable(NAME);
         }
+
     }
 
-    private void loadJokesList(Name name) {
+    private void loadJokesList() {
         presenter.loadJokesList(name);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        presenter.onPause();
     }
 
     @Override
@@ -123,4 +120,5 @@ public class JokesListActivity extends BaseActivity implements JokesListView, Ad
 
     @Override
     public void hideSnackBar() { }
+
 }

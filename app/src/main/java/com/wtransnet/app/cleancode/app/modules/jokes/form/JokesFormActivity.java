@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.wtransnet.app.cleancode.R;
-import com.wtransnet.app.cleancode.app.common.nav.Navigator;
-import com.wtransnet.app.cleancode.app.core.activity.BaseActivity;
+import com.wtransnet.app.cleancode.app.core.activity.AbstractActivity;
 import com.wtransnet.app.cleancode.domain.entities.Name;
-
-import javax.inject.Inject;
+import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -16,7 +14,7 @@ import butterknife.OnClick;
 /**
  * Actividad para el formulario de Jokes
  */
-public class JokesFormActivity extends BaseActivity {
+public class JokesFormActivity extends AbstractActivity {
 
     @InjectView(R.id.editTxtFirstName) EditText editTxtFirstName;
     @InjectView(R.id.editTxtLastName)  EditText editTxtLastName;
@@ -27,6 +25,16 @@ public class JokesFormActivity extends BaseActivity {
 
     @Override public int getContentView() {
         return R.layout.form;
+    }
+
+    @Override
+    protected String getToolbarTitle() {
+        return null;
+    }
+
+    @Override
+    protected AbstractPresenter getPresenter() {
+        return null;
     }
 
     @OnClick(R.id.btnGetJokes)
@@ -45,4 +53,5 @@ public class JokesFormActivity extends BaseActivity {
     private String getLastName() {
         return editTxtLastName.getText().toString();
     }
+
 }

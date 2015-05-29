@@ -16,16 +16,16 @@ public class InvokerImp<T> implements Invoker<T> {
         this.jobManager = jobManager;
     }
 
-    @Override public void execute(T data, Interactor interactor) {
+    @Override public void execute(T data, Interactor<T> interactor) {
         execute(data, interactor, Priority.MEDIUM);
     }
 
-    @Override public void execute(T data, Interactor interactor, Priority priority) {
+    @Override public void execute(T data, Interactor<T> interactor, Priority priority) {
         jobManager.addJob(interactorToJob(data, interactor, priority));
     }
 
-    private Job interactorToJob(T data, Interactor interactor, Priority priority) {
+    private Job interactorToJob(T data, Interactor<T> interactor, Priority priority) {
         Params params = new Params(priority.getPriorityValue());
-        return new JobImp<T>(data, params, interactor);
+        return new JobImp<>(data, params, interactor);
     }
 }

@@ -1,9 +1,13 @@
 package com.wtransnet.app.cleancode.domain.interactors.jokes.load;
 
 import com.squareup.otto.Bus;
+import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.domain.entities.Name;
+import com.wtransnet.app.cleancode.domain.interactors.core.DataEvent;
 import com.wtransnet.app.cleancode.domain.interactors.core.Interactor;
 import com.wtransnet.app.cleancode.domain.repository.JokesRepository;
+
+import java.util.List;
 
 /**
  * Interactor para la carga de los Jokes
@@ -22,15 +26,15 @@ public class LoadJokesInteractor implements Interactor<Name> {
     }
 
     @Override
-    public void execute(Name name) {
+    public void execute(Name data) {
 
-        prepareData(name);
+        prepareData(data);
 
-        LoadJokesEvent event = new LoadJokesEvent();
+        DataEvent<List<Joke>> event = new DataEvent<>();
 
         try {
-            event.setJokes(repository.loadJokes(name));
-        } catch(LoadJokesException ex) {
+            event.setData(repository.loadJokes(data));
+        } catch(JokesException ex) {
             event.setError(ex);
         }
 
