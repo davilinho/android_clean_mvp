@@ -20,7 +20,6 @@ import com.wtransnet.app.cleancode.app.net.RetrofitJacksonConverter;
 import com.wtransnet.app.cleancode.data.rest.datasource.JokesRestDataSource;
 import com.wtransnet.app.cleancode.data.rest.mapper.JokeDataMapper;
 import com.wtransnet.app.cleancode.data.rest.service.JokesRestService;
-import com.wtransnet.app.cleancode.domain.entities.Name;
 import com.wtransnet.app.cleancode.domain.interactors.core.Invoker;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.GetJokeInteractor;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
