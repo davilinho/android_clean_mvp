@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 
 import com.path.android.jobqueue.JobManager;
 import com.squareup.otto.Bus;
+import com.wtransnet.app.cleancode.app.common.nav.FragmentNavigator;
 import com.wtransnet.app.cleancode.app.common.nav.Navigator;
 import com.wtransnet.app.cleancode.app.core.application.JokesApplication;
 import com.wtransnet.app.cleancode.app.core.error.CommonErrorHandler;
 import com.wtransnet.app.cleancode.app.core.eventbus.AndroidBus;
 import com.wtransnet.app.cleancode.app.domain.InvokerImp;
+import com.wtransnet.app.cleancode.app.modules.jokes.detail.JokeDetailFragment;
 import com.wtransnet.app.cleancode.app.modules.jokes.detail.JokesDetailActivity;
 import com.wtransnet.app.cleancode.app.modules.jokes.form.JokesFormActivity;
 import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListActivity;
@@ -50,7 +52,8 @@ import retrofit.client.OkClient;
             JokeDetailPresenter.class,
             LoadJokesInteractor.class,
             GetJokeInteractor.class,
-            CommonErrorHandler.class
+            CommonErrorHandler.class,
+            JokeDetailFragment.class
     }
 )
 public class AppModule {
@@ -74,6 +77,11 @@ public class AppModule {
     @Provides @Singleton
     Navigator provideNavigator() {
         return new Navigator(app.getApplicationContext());
+    }
+
+    @Provides @Singleton
+    FragmentNavigator provideFragmentNavigator() {
+        return new FragmentNavigator();
     }
 
     @Provides @Singleton
@@ -159,6 +167,13 @@ public class AppModule {
     @Provides @Singleton
     CommonErrorHandler provideCommonErrorHandler() {
         return new CommonErrorHandler();
+    }
+
+    // Fragments
+
+    @Provides
+    JokeDetailFragment provideJokeDetailFragment() {
+        return new JokeDetailFragment();
     }
 
 }

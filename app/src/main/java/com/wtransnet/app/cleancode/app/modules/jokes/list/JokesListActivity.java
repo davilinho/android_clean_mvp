@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.wtransnet.app.cleancode.R;
 import com.wtransnet.app.cleancode.app.core.activity.AbstractActivity;
+import com.wtransnet.app.cleancode.app.modules.jokes.detail.JokesDetailActivity;
 import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.domain.entities.Name;
 import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
@@ -22,7 +23,7 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 
-import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConstants.NAME;
+import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConstants.ACTIVITY_DATA;
 
 
 /**
@@ -30,9 +31,11 @@ import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConst
  */
 public class JokesListActivity extends AbstractActivity implements JokesListView, AdapterView.OnItemClickListener {
 
-    @Inject JokesListPresenter presenter;
+    @Inject
+    JokesListPresenter presenter;
 
-    @InjectView(R.id.list) ListView listView;
+    @InjectView(R.id.list)
+    ListView listView;
 
     private Name name;
     private List<Joke> itemsList;
@@ -65,7 +68,7 @@ public class JokesListActivity extends AbstractActivity implements JokesListView
     protected void onSaveInstanceState(Bundle outState) {
 
         if (outState != null) {
-            outState.putSerializable(NAME, name);
+            outState.putSerializable(ACTIVITY_DATA, name);
         }
 
         super.onSaveInstanceState(outState);
@@ -85,10 +88,10 @@ public class JokesListActivity extends AbstractActivity implements JokesListView
     private void initializeData(Bundle savedInstanceState) {
 
         if (savedInstanceState == null) {
-            name = (Name) getIntent().getSerializableExtra(NAME);
+            name = (Name) getIntent().getSerializableExtra(ACTIVITY_DATA);
             loadJokesList();
         } else {
-            name = (Name) savedInstanceState.getSerializable(NAME);
+            name = (Name) savedInstanceState.getSerializable(ACTIVITY_DATA);
         }
 
     }
@@ -110,9 +113,11 @@ public class JokesListActivity extends AbstractActivity implements JokesListView
         Toast.makeText(this, R.string.error_loading_jokes, Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        navigator.navigateToJokeDetail(String.valueOf(((Joke) parent.getItemAtPosition(position)).getId()));
+        navigator.navigateToActivity(new JokesDetailActivity(),
+                String.valueOf(((Joke) parent.getItemAtPosition(position)).getId()));
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.widget.EditText;
 
 import com.wtransnet.app.cleancode.R;
 import com.wtransnet.app.cleancode.app.core.activity.AbstractActivity;
+import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListActivity;
 import com.wtransnet.app.cleancode.domain.entities.Name;
 import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
 
@@ -37,9 +38,10 @@ public class JokesFormActivity extends AbstractActivity {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     @OnClick(R.id.btnGetJokes)
     public void navigateToListJokes() {
-        navigator.navigateToJokesList(getName());
+        navigator.navigateToActivity(new JokesListActivity(), getName());
     }
 
     private Name getName() {

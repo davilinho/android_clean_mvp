@@ -10,5 +10,7 @@ public interface JokeDetailView extends BaseView {
 
     void showJokeDetail(Joke joke);
 
+    void closeJokeDetailFragment();
+
     void showJokeDetailError();
 }

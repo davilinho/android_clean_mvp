@@ -1,17 +1,17 @@
 package com.wtransnet.app.cleancode.app.common.nav;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import com.wtransnet.app.cleancode.app.common.constants.IntentValuesConstants;
-import com.wtransnet.app.cleancode.app.modules.jokes.detail.JokesDetailActivity;
-import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListActivity;
-import com.wtransnet.app.cleancode.domain.entities.Name;
+
+import java.io.Serializable;
 
 /**
  * Class used to navigate through the aplication
  */
-public class Navigator {
+public class Navigator<T extends Serializable> {
 
     private Context context;
 
@@ -19,12 +19,12 @@ public class Navigator {
         this.context = context;
     }
 
-    public void navigateToJokesList(Name name) {
+    public void navigateToActivity(Activity activity, T data) {
 
         if (context != null) {
 
-            final Intent intent = new Intent(context, JokesListActivity.class);
-            intent.putExtra(IntentValuesConstants.NAME, name);
+            final Intent intent = new Intent(context, activity.getClass());
+            intent.putExtra(IntentValuesConstants.ACTIVITY_DATA, data);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             context.startActivity(intent);
@@ -33,17 +33,4 @@ public class Navigator {
 
     }
 
-    public void navigateToJokeDetail(String id) {
-
-        if (context != null) {
-
-            final Intent intent = new Intent(context, JokesDetailActivity.class);
-            intent.putExtra(IntentValuesConstants.ID, id);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            context.startActivity(intent);
-
-        }
-
-    }
 }
