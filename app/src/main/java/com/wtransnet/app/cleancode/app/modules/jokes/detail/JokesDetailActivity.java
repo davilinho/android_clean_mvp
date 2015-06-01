@@ -1,7 +1,6 @@
 package com.wtransnet.app.cleancode.app.modules.jokes.detail;
 
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nispok.snackbar.Snackbar;
@@ -16,9 +15,7 @@ import com.wtransnet.app.cleancode.presentation.modules.jokes.detail.JokeDetailV
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
-
-import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConstants.ID;
+import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConstants.ACTIVITY_DATA;
 
 /**
  * Component created on 26/05/2015.
@@ -26,10 +23,11 @@ import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConst
  */
 public class JokesDetailActivity extends AbstractActivity implements JokeDetailView {
 
-    @InjectView(R.id.txtDetail) TextView txtDetail;
-
     @Inject
     JokeDetailPresenter presenter;
+
+    @Inject
+    JokeDetailFragment jokeDetailFragment;
 
     private String id;
 
@@ -58,9 +56,9 @@ public class JokesDetailActivity extends AbstractActivity implements JokeDetailV
     private void initializeData(Bundle savedInstanceState) {
 
         if (savedInstanceState == null) {
-            id = getIntent().getStringExtra(ID);
+            id = getIntent().getStringExtra(ACTIVITY_DATA);
         } else {
-            id = savedInstanceState.getString(ID);
+            id = savedInstanceState.getString(ACTIVITY_DATA);
         }
 
         getJokeDetail();
@@ -89,13 +87,20 @@ public class JokesDetailActivity extends AbstractActivity implements JokeDetailV
         SnackbarManager.dismiss();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void showJokeDetail(Joke joke) {
-        txtDetail.setText(joke.getJoke());
+        fragmentNavigator.navigateToFragment(this, jokeDetailFragment, joke.getJoke());
+    }
+
+    @Override
+    public void closeJokeDetailFragment() {
+        finish();
     }
 
     @Override
     public void showJokeDetailError() {
         Toast.makeText(this, R.string.error_loading_detail_joke, Toast.LENGTH_SHORT).show();
     }
+
 }

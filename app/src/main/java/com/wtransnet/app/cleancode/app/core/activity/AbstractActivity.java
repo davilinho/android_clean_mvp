@@ -3,15 +3,15 @@ package com.wtransnet.app.cleancode.app.core.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import com.wtransnet.app.cleancode.R;
+import com.wtransnet.app.cleancode.app.common.nav.FragmentNavigator;
 import com.wtransnet.app.cleancode.app.common.nav.Navigator;
 import com.wtransnet.app.cleancode.app.core.application.JokesApplication;
 import com.wtransnet.app.cleancode.app.core.error.CommonErrorHandler;
+import com.wtransnet.app.cleancode.presentation.core.error.ErrorHandler;
 import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
 import com.wtransnet.app.cleancode.presentation.core.view.BaseView;
-import com.wtransnet.app.cleancode.presentation.core.error.ErrorHandler;
 
 import javax.inject.Inject;
 
@@ -24,11 +24,17 @@ import butterknife.Optional;
  */
 public abstract class AbstractActivity<T1, T2, V extends BaseView> extends AppCompatActivity implements ErrorHandler {
 
-    @Inject protected Navigator navigator;
+    @Inject
+    protected Navigator navigator;
 
-    @Inject CommonErrorHandler commonErrorHandler;
+    @Inject
+    protected FragmentNavigator fragmentNavigator;
 
-    @Optional @InjectView(R.id.toolbar) Toolbar toolbar;
+    @Inject
+    CommonErrorHandler commonErrorHandler;
+
+    @Optional @InjectView (R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

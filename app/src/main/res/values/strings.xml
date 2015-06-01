@@ -6,6 +6,8 @@
     <string name="lastName">Last name</string>
     <string name="titleActivityList">List of Jokes</string>
     <string name="titleActivityDetail">Joke\'s Detail</string>
+    <string name="btnFragment">Open fragment</string>
+    <string name="close">Close fragment</string>
 
     <string name="loadingData">Loading data, please wait...</string>
     <string name="back">Back</string>

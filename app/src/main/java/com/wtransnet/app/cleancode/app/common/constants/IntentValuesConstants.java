@@ -5,7 +5,7 @@ package com.wtransnet.app.cleancode.app.common.constants;
  */
 public class IntentValuesConstants {
 
-    public static final String NAME = "NAME";
+    public static final String ACTIVITY_DATA = "ACTIVITY_DATA";
 
-    public static final String ID = "ID";
+    public static final String FRAGMENT_DATA = "FRAGMENT_DATA";
 }
