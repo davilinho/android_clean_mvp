@@ -1,6 +1,6 @@
 package com.wtransnet.app.cleancode.domain.interactors.core;
 
-public class BaseEvent {
+public class ErrorEvent {
 
     private Throwable error = null;
 

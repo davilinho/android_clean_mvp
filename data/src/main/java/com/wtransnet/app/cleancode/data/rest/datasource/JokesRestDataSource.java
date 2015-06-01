@@ -5,7 +5,7 @@ import com.wtransnet.app.cleancode.data.rest.entities.JokesListResponse;
 import com.wtransnet.app.cleancode.data.rest.mapper.JokeDataMapper;
 import com.wtransnet.app.cleancode.data.rest.service.JokesRestService;
 import com.wtransnet.app.cleancode.domain.entities.Joke;
-import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesException;
+import com.wtransnet.app.cleancode.domain.interactors.jokes.load.JokesException;
 import com.wtransnet.app.cleancode.repository.jokes.datasources.JokesDataSource;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class JokesRestDataSource implements JokesDataSource {
     }
 
     @Override
-    public List<Joke> loadJokes(String firstName, String lastName) throws LoadJokesException {
+    public List<Joke> loadJokes(String firstName, String lastName) throws JokesException {
 
         List<Joke> jokes = null;
 
@@ -41,7 +41,7 @@ public class JokesRestDataSource implements JokesDataSource {
     }
 
     @Override
-    public Joke getJoke(String id) throws LoadJokesException {
+    public Joke getJoke(String id) throws JokesException {
 
         Joke joke = null;
 

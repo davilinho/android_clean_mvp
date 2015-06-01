@@ -2,7 +2,7 @@ package com.wtransnet.app.cleancode.domain.repository;
 
 import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.domain.entities.Name;
-import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesException;
+import com.wtransnet.app.cleancode.domain.interactors.jokes.load.JokesException;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface JokesRepository {
 
-    List<Joke> loadJokes(Name name) throws LoadJokesException;
+    List<Joke> loadJokes(Name name) throws JokesException;
 
-    Joke getJoke(String message) throws LoadJokesException;
+    Joke getJoke(String message) throws JokesException;
 }

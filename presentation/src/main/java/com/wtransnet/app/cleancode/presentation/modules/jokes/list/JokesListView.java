@@ -1,7 +1,7 @@
 package com.wtransnet.app.cleancode.presentation.modules.jokes.list;
 
 import com.wtransnet.app.cleancode.domain.entities.Joke;
-import com.wtransnet.app.cleancode.presentation.core.BaseView;
+import com.wtransnet.app.cleancode.presentation.core.view.BaseView;
 
 import java.util.List;
 

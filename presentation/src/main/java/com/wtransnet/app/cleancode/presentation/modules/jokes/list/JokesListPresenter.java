@@ -2,52 +2,44 @@ package com.wtransnet.app.cleancode.presentation.modules.jokes.list;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import com.wtransnet.app.cleancode.domain.interactors.core.InteractorInvoker;
-import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesEvent;
-import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
+import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.domain.entities.Name;
+import com.wtransnet.app.cleancode.domain.interactors.core.DataEvent;
+import com.wtransnet.app.cleancode.domain.interactors.core.Invoker;
+import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
+import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
+
+import java.util.List;
 
 /**
  * Presenter para el formulario
  */
-public class JokesListPresenter {
+public class JokesListPresenter extends AbstractPresenter<Name, List<Joke>, JokesListView> {
 
-    private final Bus bus;
-    private final InteractorInvoker invoker;
-    private final LoadJokesInteractor loadJokesInteractor;
+    private LoadJokesInteractor loadJokesInteractor;
 
-    private JokesListView view;
-
-    public JokesListPresenter(Bus bus, InteractorInvoker invoker, LoadJokesInteractor loadJokesInteractor) {
-        this.bus = bus;
-        this.invoker = invoker;
+    public JokesListPresenter(Bus bus, Invoker<Name> invoker, LoadJokesInteractor loadJokesInteractor) {
+        super(bus, invoker);
         this.loadJokesInteractor = loadJokesInteractor;
     }
 
-    public void attachView(JokesListView view) {
-        this.view = view;
+    @Subscribe
+    public void executePresenterResponse(DataEvent<List<Joke>> event) {
+        choreographerCallback(event);
     }
 
-    public void onResume() {
-        bus.register(this);
+    @Override
+    public void manageView(DataEvent<List<Joke>> event) {
+        getView().refreshJokesList(event.getData());
     }
 
-    public void onPause() {
-        bus.unregister(this);
+    @Override
+    public void manageSpecificError(DataEvent<List<Joke>> event) {
+        getView().showLoadJokesError();
     }
 
     public void loadJokesList(Name name) {
-        invoker.execute(name, loadJokesInteractor);
-    }
-
-    @Subscribe
-    public void loadJokes(LoadJokesEvent event) {
-
-        if (event.hasError()) {
-            view.showLoadJokesError();
-        } else {
-            view.refreshJokesList(event.getJokes());
-        }
+        executePresenterRequest(name, loadJokesInteractor);
     }
 
 }

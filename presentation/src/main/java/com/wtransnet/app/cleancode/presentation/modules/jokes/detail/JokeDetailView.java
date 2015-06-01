@@ -1,9 +1,7 @@
 package com.wtransnet.app.cleancode.presentation.modules.jokes.detail;
 
 import com.wtransnet.app.cleancode.domain.entities.Joke;
-import com.wtransnet.app.cleancode.presentation.core.BaseView;
-
-import java.util.List;
+import com.wtransnet.app.cleancode.presentation.core.view.BaseView;
 
 /**
  * View para el detalle del Joke.

@@ -4,13 +4,13 @@ import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
 import com.wtransnet.app.cleancode.domain.interactors.core.Interactor;
 
-public class InteractorJobImp<T> extends Job {
+public class JobImp<T> extends Job {
 
     private T data;
 
-    private Interactor interactor;
+    private Interactor<T> interactor;
 
-    public InteractorJobImp(T data, Params params, Interactor interactor) {
+    public JobImp(T data, Params params, Interactor<T> interactor) {
         super(params);
         this.data = data;
         this.interactor = interactor;
@@ -22,7 +22,7 @@ public class InteractorJobImp<T> extends Job {
 
     @Override
     public void onRun() throws Throwable {
-    interactor.execute(data);
+        interactor.execute(data);
     }
 
     @Override

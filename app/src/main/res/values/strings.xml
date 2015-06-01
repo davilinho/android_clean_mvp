@@ -4,8 +4,8 @@
     <string name="title_activity_form">Jokes</string>
     <string name="firstName">First name</string>
     <string name="lastName">Last name</string>
-    <string name="title_activity_list">List of Jokes</string>
-    <string name="title_activity_detail">Joke\'s Detail</string>
+    <string name="titleActivityList">List of Jokes</string>
+    <string name="titleActivityDetail">Joke\'s Detail</string>
 
     <string name="loadingData">Loading data, please wait...</string>
     <string name="back">Back</string>
