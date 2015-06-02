@@ -17,8 +17,11 @@ import butterknife.OnClick;
  */
 public class JokesFormActivity extends AbstractActivity {
 
-    @InjectView(R.id.editTxtFirstName) EditText editTxtFirstName;
-    @InjectView(R.id.editTxtLastName)  EditText editTxtLastName;
+    @InjectView(R.id.editTxtFirstName)
+    EditText editTxtFirstName;
+
+    @InjectView(R.id.editTxtLastName)
+    EditText editTxtLastName;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

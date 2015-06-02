@@ -1,6 +1,8 @@
 package com.wtransnet.app.cleancode.app.modules.jokes.detail;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.nispok.snackbar.Snackbar;
@@ -15,6 +17,8 @@ import com.wtransnet.app.cleancode.presentation.modules.jokes.detail.JokeDetailV
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
+
 import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConstants.ACTIVITY_DATA;
 
 /**
@@ -28,6 +32,10 @@ public class JokesDetailActivity extends AbstractActivity implements JokeDetailV
 
     @Inject
     JokeDetailFragment jokeDetailFragment;
+
+    @InjectView(R.id.progress)
+    ProgressBar progressBar;
+
 
     private String id;
 
@@ -67,6 +75,16 @@ public class JokesDetailActivity extends AbstractActivity implements JokeDetailV
 
     private void getJokeDetail() {
         presenter.getJokeDetail(id);
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
