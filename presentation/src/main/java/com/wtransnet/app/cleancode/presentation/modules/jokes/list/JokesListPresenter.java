@@ -10,6 +10,8 @@ import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesIntera
 import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Presenter para el formulario
@@ -29,8 +31,15 @@ public class JokesListPresenter extends AbstractPresenter<Name, List<Joke>, Joke
     }
 
     @Override
+    public void attachView(JokesListView view) {
+        super.attachView(view);
+        getView().showProgress();
+    }
+
+    @Override
     public void manageView(DataEvent<List<Joke>> event) {
         getView().refreshJokesList(event.getData());
+        getView().hideProgress();
     }
 
     @Override
@@ -38,8 +47,17 @@ public class JokesListPresenter extends AbstractPresenter<Name, List<Joke>, Joke
         getView().showLoadJokesError();
     }
 
-    public void loadJokesList(Name name) {
-        executePresenterRequest(name, loadJokesInteractor);
+    public void loadJokesList(final Name name) {
+
+        new Timer().schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                executePresenterRequest(name, loadJokesInteractor);
+            }
+
+        }, 2000);
+
     }
 
 }

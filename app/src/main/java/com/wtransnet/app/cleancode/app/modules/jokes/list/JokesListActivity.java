@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.wtransnet.app.cleancode.R;
@@ -36,6 +37,9 @@ public class JokesListActivity extends AbstractActivity implements JokesListView
 
     @InjectView(R.id.list)
     ListView listView;
+
+    @InjectView(R.id.progress)
+    ProgressBar progressBar;
 
     private Name name;
     private List<Joke> itemsList;
@@ -118,6 +122,16 @@ public class JokesListActivity extends AbstractActivity implements JokesListView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         navigator.navigateToActivity(new JokesDetailActivity(),
                 String.valueOf(((Joke) parent.getItemAtPosition(position)).getId()));
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

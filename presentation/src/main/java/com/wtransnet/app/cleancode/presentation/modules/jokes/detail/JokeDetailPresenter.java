@@ -8,6 +8,9 @@ import com.wtransnet.app.cleancode.domain.interactors.core.Invoker;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.GetJokeInteractor;
 import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Presenter para el formulario
  */
@@ -22,13 +25,21 @@ public class JokeDetailPresenter extends AbstractPresenter<String, Joke, JokeDet
 
     @Subscribe
     public void executePresenterResponse(DataEvent<Joke> event) {
-        getView().hideSnackBar();
         choreographerCallback(event);
+    }
+
+    @Override
+    public void attachView(JokeDetailView view) {
+        super.attachView(view);
+        getView().showProgress();
+        getView().showSnackBar();
     }
 
     @Override
     public void manageView(DataEvent<Joke> event) {
         getView().showJokeDetail(event.getData());
+        getView().hideSnackBar();
+        getView().hideProgress();
     }
 
     @Override
@@ -36,9 +47,17 @@ public class JokeDetailPresenter extends AbstractPresenter<String, Joke, JokeDet
         getView().showJokeDetailError();
     }
 
-    public void getJokeDetail(String message) {
-        getView().showSnackBar();
-        executePresenterRequest(message, getJokeInteractor);
+    public void getJokeDetail(final String message) {
+
+        new Timer().schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                executePresenterRequest(message, getJokeInteractor);
+            }
+
+        }, 2000);
+
     }
 
 }
