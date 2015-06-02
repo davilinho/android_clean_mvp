@@ -6,7 +6,8 @@ import com.wtransnet.app.cleancode.data.rest.entities.JokesListResponse;
 import com.wtransnet.app.cleancode.data.rest.mapper.JokeDataMapper;
 import com.wtransnet.app.cleancode.data.rest.service.JokesRestService;
 import com.wtransnet.app.cleancode.domain.entities.Joke;
-import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesException;
+import com.wtransnet.app.cleancode.domain.entities.Name;
+import com.wtransnet.app.cleancode.domain.interactors.jokes.load.JokesException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,13 +38,15 @@ public class JokesRestDataSourceTest {
 
     private JokesRestDataSource jokesRestDataSource;
 
-    private JokeEntity[] dummyJokeEntityList;
-    private List<Joke> dummyJokeList;
-    private JokesListResponse dummyJokesListResponse;
+    private Name fakeName;
 
-    private JokeEntity dummyJokeEntity;
-    private Joke dummyJoke;
-    private JokeDetailResponse dummyJokeDetailResponse;
+    private JokeEntity[] fakeJokeEntityList;
+    private List<Joke> fakeJokeList;
+    private JokesListResponse fakeJokesListResponse;
+
+    private JokeEntity fakeJokeEntity;
+    private Joke fakeJoke;
+    private JokeDetailResponse fakeJokeDetailResponse;
 
     @Mock private JokesRestService mockRestService;
     @Mock private JokeDataMapper mockMapper;
@@ -53,48 +56,52 @@ public class JokesRestDataSourceTest {
         MockitoAnnotations.initMocks(this);
         jokesRestDataSource = new JokesRestDataSource(mockRestService, mockMapper);
 
-        dummyJokeEntityList = new JokeEntity[0];
-        dummyJokeList       = new ArrayList<>();
+        fakeName = new Name();
+        fakeName.setFirstName(FAKE_FIRST_NAME);
+        fakeName.setLastName(FAKE_LAST_NAME);
 
-        dummyJokesListResponse = new JokesListResponse();
-        dummyJokesListResponse.setValue(dummyJokeEntityList);
+        fakeJokeEntityList = new JokeEntity[0];
+        fakeJokeList = new ArrayList<>();
 
-        dummyJokeEntity = new JokeEntity();
-        dummyJoke       = new Joke();
+        fakeJokesListResponse = new JokesListResponse();
+        fakeJokesListResponse.setValue(fakeJokeEntityList);
 
-        dummyJokeDetailResponse = new JokeDetailResponse();
-        dummyJokeDetailResponse.setValue(dummyJokeEntity);
+        fakeJokeEntity = new JokeEntity();
+        fakeJoke = new Joke();
+
+        fakeJokeDetailResponse = new JokeDetailResponse();
+        fakeJokeDetailResponse.setValue(fakeJokeEntity);
     }
 
     @Test
-    public void testLoadJokes() throws LoadJokesException {
+    public void testLoadJokes() throws JokesException {
         when(mockRestService.loadJokes(FAKE_FIRST_NAME, FAKE_LAST_NAME)).thenReturn(new JokesListResponse());
-        jokesRestDataSource.loadJokes(FAKE_FIRST_NAME, FAKE_LAST_NAME);
+        jokesRestDataSource.loadJokes(fakeName);
         verify(mockRestService).loadJokes(FAKE_FIRST_NAME, FAKE_LAST_NAME);
     }
 
     @Test
-    public void testLoadJokesSuccess() throws LoadJokesException {
+    public void testLoadJokesSuccess() throws JokesException {
 
-        dummyJokesListResponse.setType(SUCCESS_TYPE);
+        fakeJokesListResponse.setType(SUCCESS_TYPE);
 
-        when(mockRestService.loadJokes(FAKE_FIRST_NAME, FAKE_LAST_NAME)).thenReturn(dummyJokesListResponse);
-        when(mockMapper.transform(dummyJokeEntityList)).thenReturn(dummyJokeList);
+        when(mockRestService.loadJokes(FAKE_FIRST_NAME, FAKE_LAST_NAME)).thenReturn(fakeJokesListResponse);
+        when(mockMapper.transform(fakeJokeEntityList)).thenReturn(fakeJokeList);
 
-        List<Joke> resultJokeList = jokesRestDataSource.loadJokes(FAKE_FIRST_NAME, FAKE_LAST_NAME);
+        List<Joke> resultJokeList = jokesRestDataSource.loadJokes(fakeName);
 
-        assertThat(resultJokeList, is(dummyJokeList));
+        assertThat(resultJokeList, is(fakeJokeList));
 
         verify(mockRestService).loadJokes(FAKE_FIRST_NAME, FAKE_LAST_NAME);
-        verify(mockMapper).transform(dummyJokeEntityList);
+        verify(mockMapper).transform(fakeJokeEntityList);
     }
 
     @Test
-    public void testLoadJokesFail() throws LoadJokesException {
+    public void testLoadJokesFail() throws JokesException {
 
         when(mockRestService.loadJokes(FAKE_FIRST_NAME, FAKE_LAST_NAME)).thenReturn(new JokesListResponse());
 
-        List<Joke> resultJokeList = jokesRestDataSource.loadJokes(FAKE_FIRST_NAME, FAKE_LAST_NAME);
+        List<Joke> resultJokeList = jokesRestDataSource.loadJokes(fakeName);
 
         assertThat(resultJokeList, is(nullValue()));
 
@@ -103,30 +110,30 @@ public class JokesRestDataSourceTest {
     }
 
     @Test
-    public void testGetJoke() throws LoadJokesException {
+    public void testGetJoke() throws JokesException {
         when(mockRestService.getJoke(FAKE_JOKE_ID)).thenReturn(new JokeDetailResponse());
         jokesRestDataSource.getJoke(FAKE_JOKE_ID);
         verify(mockRestService).getJoke(FAKE_JOKE_ID);
     }
 
     @Test
-    public void testGetJokeSuccess() throws LoadJokesException {
+    public void testGetJokeSuccess() throws JokesException {
 
-        dummyJokeDetailResponse.setType(SUCCESS_TYPE);
+        fakeJokeDetailResponse.setType(SUCCESS_TYPE);
 
-        when(mockRestService.getJoke(FAKE_JOKE_ID)).thenReturn(dummyJokeDetailResponse);
-        when(mockMapper.transform(dummyJokeEntity)).thenReturn(dummyJoke);
+        when(mockRestService.getJoke(FAKE_JOKE_ID)).thenReturn(fakeJokeDetailResponse);
+        when(mockMapper.transform(fakeJokeEntity)).thenReturn(fakeJoke);
 
         Joke resultJoke = jokesRestDataSource.getJoke(FAKE_JOKE_ID);
 
-        assertThat(resultJoke, is(dummyJoke));
+        assertThat(resultJoke, is(fakeJoke));
 
         verify(mockRestService).getJoke(FAKE_JOKE_ID);
-        verify(mockMapper).transform(dummyJokeEntity);
+        verify(mockMapper).transform(fakeJokeEntity);
     }
 
     @Test
-    public void testGetJokeFail() throws LoadJokesException {
+    public void testGetJokeFail() throws JokesException {
 
         when(mockRestService.getJoke(FAKE_JOKE_ID)).thenReturn(new JokeDetailResponse());
 

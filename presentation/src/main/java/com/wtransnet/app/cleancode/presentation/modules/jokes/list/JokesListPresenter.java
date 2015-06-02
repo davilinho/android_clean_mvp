@@ -48,16 +48,7 @@ public class JokesListPresenter extends AbstractPresenter<Name, List<Joke>, Joke
     }
 
     public void loadJokesList(final Name name) {
-
-        new Timer().schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                executePresenterRequest(name, loadJokesInteractor);
-            }
-
-        }, 2000);
-
+        executePresenterRequest(name, loadJokesInteractor);
     }
 
 }
