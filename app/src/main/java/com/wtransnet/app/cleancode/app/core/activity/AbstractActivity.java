@@ -75,7 +75,6 @@ public abstract class AbstractActivity<T1, T2, V extends BaseView> extends AppCo
         super.onDestroy();
 
         if (checkHasPresenter()) {
-            getPresenter().onDestroy();
             getPresenter().detachView();
         }
 
