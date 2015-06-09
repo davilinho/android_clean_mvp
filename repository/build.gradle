@@ -2,5 +2,10 @@ apply plugin: 'java'
 
 dependencies {
 
+    def lib = parent.ext
+
     compile project(':domain')
+
+    testCompile lib.junit
+    testCompile lib.mockito
 }

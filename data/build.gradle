@@ -8,4 +8,7 @@ dependencies {
     compile lib.retrofit
 
     compile project(':repository')
+
+    testCompile lib.junit
+    testCompile lib.mockito
 }

@@ -9,7 +9,7 @@ import com.wtransnet.app.cleancode.repository.jokes.datasources.JokesDataSource;
 import java.util.List;
 
 /**
- * Implementación dummy del repositorio de Jokes
+ * Implementación del repositorio de Jokes
  */
 public class JokesRepositoryImpl implements JokesRepository {
 
@@ -21,12 +21,12 @@ public class JokesRepositoryImpl implements JokesRepository {
 
     @Override
     public List<Joke> loadJokes(Name name) throws JokesException {
-        return dataSource.loadJokes(name.getFirstName(), name.getLastName());
+        return dataSource.loadJokes(name);
     }
 
     @Override
-    public Joke getJoke(String id) throws JokesException {
-        return dataSource.getJoke(id);
+    public Joke getJoke(String jokeId) throws JokesException {
+        return dataSource.getJoke(jokeId);
     }
 
 }

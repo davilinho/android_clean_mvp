@@ -5,7 +5,7 @@ import com.squareup.otto.Subscribe;
 import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.domain.interactors.core.DataEvent;
 import com.wtransnet.app.cleancode.domain.interactors.core.Invoker;
-import com.wtransnet.app.cleancode.domain.interactors.jokes.load.GetJokeInteractor;
+import com.wtransnet.app.cleancode.domain.interactors.jokes.get.GetJokeInteractor;
 import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
 
 import java.util.Timer;
@@ -48,16 +48,7 @@ public class JokeDetailPresenter extends AbstractPresenter<String, Joke, JokeDet
     }
 
     public void getJokeDetail(final String message) {
-
-        new Timer().schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                executePresenterRequest(message, getJokeInteractor);
-            }
-
-        }, 2000);
-
+        executePresenterRequest(message, getJokeInteractor);
     }
 
 }

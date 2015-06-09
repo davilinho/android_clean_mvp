@@ -22,8 +22,11 @@ import com.wtransnet.app.cleancode.app.net.RetrofitJacksonConverter;
 import com.wtransnet.app.cleancode.data.rest.datasource.JokesRestDataSource;
 import com.wtransnet.app.cleancode.data.rest.mapper.JokeDataMapper;
 import com.wtransnet.app.cleancode.data.rest.service.JokesRestService;
+import com.wtransnet.app.cleancode.domain.entities.Joke;
+import com.wtransnet.app.cleancode.domain.entities.Name;
+import com.wtransnet.app.cleancode.domain.interactors.core.DataEvent;
 import com.wtransnet.app.cleancode.domain.interactors.core.Invoker;
-import com.wtransnet.app.cleancode.domain.interactors.jokes.load.GetJokeInteractor;
+import com.wtransnet.app.cleancode.domain.interactors.jokes.get.GetJokeInteractor;
 import com.wtransnet.app.cleancode.domain.interactors.jokes.load.LoadJokesInteractor;
 import com.wtransnet.app.cleancode.domain.repository.JokesRepository;
 import com.wtransnet.app.cleancode.presentation.modules.jokes.detail.JokeDetailPresenter;
@@ -31,6 +34,9 @@ import com.wtransnet.app.cleancode.presentation.modules.jokes.list.JokesListPres
 import com.wtransnet.app.cleancode.repository.jokes.JokesRepositoryImpl;
 import com.wtransnet.app.cleancode.repository.jokes.datasources.JokesDataSource;
 
+import java.util.List;
+
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -138,27 +144,37 @@ public class AppModule {
         return new JokesRepositoryImpl(jokesDataSource);
     }
 
-    // Interactors
+    // Events (No pueden ser singleton ya que tienen estado)
 
-    @Provides @Singleton
-    LoadJokesInteractor provideLoadJokesInteractor(Bus bus, JokesRepository repository) {
-        return new LoadJokesInteractor(bus, repository);
+    @Provides @Named("jokesList") DataEvent provideJokesListEvent() {
+        return new DataEvent<>();
     }
 
-    @Provides @Singleton
-    GetJokeInteractor provideGetJokeInteractor(Bus bus, JokesRepository repository) {
-        return new GetJokeInteractor(bus, repository);
+    @Provides @Named("joke") DataEvent provideJokeEvent() {
+        return new DataEvent<>();
+    }
+
+    // Interactors (No pueden ser singleton ya que Event se debe de generar para cada instancia)
+
+    @Provides
+    LoadJokesInteractor provideLoadJokesInteractor(Bus bus, @Named("jokesList") DataEvent<List<Joke>> event, JokesRepository repository) {
+        return new LoadJokesInteractor(bus, event, repository);
+    }
+
+    @Provides
+    GetJokeInteractor provideGetJokeInteractor(Bus bus, @Named("joke") DataEvent<Joke> event, JokesRepository repository) {
+        return new GetJokeInteractor(bus, event, repository);
     }
 
     // Presenters
 
     @Provides @Singleton
-    JokesListPresenter provideJokesListPresenter(Bus bus, Invoker invoker, LoadJokesInteractor interactor) {
+    JokesListPresenter provideJokesListPresenter(Bus bus, Invoker<Name> invoker, LoadJokesInteractor interactor) {
         return new JokesListPresenter(bus, invoker, interactor);
     }
 
     @Provides @Singleton
-    JokeDetailPresenter provideJokeDetailPresenter(Bus bus, Invoker invoker, GetJokeInteractor interactor) {
+    JokeDetailPresenter provideJokeDetailPresenter(Bus bus, Invoker<String> invoker, GetJokeInteractor interactor) {
         return new JokeDetailPresenter(bus, invoker, interactor);
     }
 

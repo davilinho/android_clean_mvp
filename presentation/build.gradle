@@ -8,4 +8,7 @@ dependencies {
     compile lib.otto
 
     compile project(':domain')
+
+    testCompile lib.junit
+    testCompile lib.mockito
 }

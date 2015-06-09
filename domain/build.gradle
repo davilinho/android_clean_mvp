@@ -6,4 +6,7 @@ dependencies {
 
     compile lib.javaxAnnotation
     compile lib.otto
+
+    testCompile lib.junit
+    testCompile lib.mockito
 }

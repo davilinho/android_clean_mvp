@@ -18,22 +18,22 @@ public class LoadJokesInteractor implements Interactor<Name> {
     private static final String LAST_NAME  = "Chorris";
 
     private Bus bus;
+    private DataEvent<List<Joke>> event;
     private JokesRepository repository;
 
-    public LoadJokesInteractor(Bus bus, JokesRepository repository) {
+    public LoadJokesInteractor(Bus bus, DataEvent<List<Joke>> event, JokesRepository repository) {
         this.bus = bus;
+        this.event = event;
         this.repository = repository;
     }
 
     @Override
-    public void execute(Name data) {
+    public void execute(Name name) {
 
-        prepareData(data);
-
-        DataEvent<List<Joke>> event = new DataEvent<>();
+        prepareData(name);
 
         try {
-            event.setData(repository.loadJokes(data));
+            event.setData(repository.loadJokes(name));
         } catch(JokesException ex) {
             event.setError(ex);
         }
@@ -43,14 +43,18 @@ public class LoadJokesInteractor implements Interactor<Name> {
 
     public void prepareData(Name name) {
 
-        if (name.getFirstName().isEmpty()) {
+        if (isEmpty(name.getFirstName())) {
             name.setFirstName(FIRST_NAME);
         }
 
-        if (name.getLastName().isEmpty()) {
+        if (isEmpty(name.getLastName())) {
             name.setLastName(LAST_NAME);
         }
 
+    }
+
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 
 }

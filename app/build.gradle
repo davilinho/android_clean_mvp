@@ -11,12 +11,23 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
+
+        debug {
+            testCoverageEnabled = true
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
@@ -42,4 +53,7 @@ dependencies {
     compile project(':domain')
     compile project(':presentation')
     compile project(':repository')
+
+    testCompile lib.junit
+    testCompile lib.mockito
 }
