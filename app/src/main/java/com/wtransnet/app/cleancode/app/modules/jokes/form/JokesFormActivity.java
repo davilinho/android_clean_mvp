@@ -2,7 +2,9 @@ package com.wtransnet.app.cleancode.app.modules.jokes.form;
 
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.wtransnet.app.cleancode.R;
 import com.wtransnet.app.cleancode.app.core.activity.AbstractActivity;
 import com.wtransnet.app.cleancode.app.modules.jokes.list.JokesListActivity;
@@ -17,6 +19,9 @@ import butterknife.OnClick;
  */
 public class JokesFormActivity extends AbstractActivity {
 
+    @InjectView(R.id.glide)
+    ImageView glide;
+
     @InjectView(R.id.editTxtFirstName)
     EditText editTxtFirstName;
 
@@ -25,6 +30,8 @@ public class JokesFormActivity extends AbstractActivity {
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Glide.with(this).load("http://media.melty.fr/claude-makelele-image-152636-article-ajust_930.jpg").into(glide);
     }
 
     @Override public int getContentView() {

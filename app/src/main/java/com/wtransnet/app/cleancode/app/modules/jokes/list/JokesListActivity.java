@@ -14,6 +14,7 @@ import com.wtransnet.app.cleancode.app.modules.jokes.detail.JokesDetailActivity;
 import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.domain.entities.Name;
 import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
+import com.wtransnet.app.cleancode.presentation.core.presenter.Presenter;
 import com.wtransnet.app.cleancode.presentation.modules.jokes.list.JokesListView;
 import com.wtransnet.app.cleancode.presentation.modules.jokes.list.JokesListPresenter;
 
@@ -33,7 +34,8 @@ import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConst
 public class JokesListActivity extends AbstractActivity implements JokesListView, AdapterView.OnItemClickListener {
 
     @Inject
-    JokesListPresenter presenter;
+    @Presenter
+    public JokesListPresenter presenter;
 
     @InjectView(R.id.list)
     ListView listView;

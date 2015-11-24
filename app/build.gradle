@@ -39,6 +39,7 @@ dependencies {
     def lib = parent.ext
 
     compile lib.androidSupportV7
+    compile lib.androidDesign
     compile lib.butterknife
     compile lib.dagger
     compile lib.jacksonDataBind
@@ -46,6 +47,7 @@ dependencies {
     compile lib.pathQueue
     compile lib.retrofit
     compile lib.snackbar
+    compile 'com.github.bumptech.glide:glide:3.6.0'
 
     provided lib.daggerCompiler
 

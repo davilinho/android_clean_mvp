@@ -12,6 +12,7 @@ import com.wtransnet.app.cleancode.R;
 import com.wtransnet.app.cleancode.app.core.activity.AbstractActivity;
 import com.wtransnet.app.cleancode.domain.entities.Joke;
 import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
+import com.wtransnet.app.cleancode.presentation.core.presenter.Presenter;
 import com.wtransnet.app.cleancode.presentation.modules.jokes.detail.JokeDetailPresenter;
 import com.wtransnet.app.cleancode.presentation.modules.jokes.detail.JokeDetailView;
 
@@ -28,7 +29,8 @@ import static com.wtransnet.app.cleancode.app.common.constants.IntentValuesConst
 public class JokesDetailActivity extends AbstractActivity implements JokeDetailView {
 
     @Inject
-    JokeDetailPresenter presenter;
+    @Presenter
+    public JokeDetailPresenter presenter;
 
     @Inject
     JokeDetailFragment jokeDetailFragment;

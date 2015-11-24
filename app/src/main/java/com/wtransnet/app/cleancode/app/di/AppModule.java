@@ -36,7 +36,6 @@ import com.wtransnet.app.cleancode.repository.jokes.datasources.JokesDataSource;
 
 import java.util.List;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -96,8 +95,13 @@ public class AppModule {
     }
 
     @Provides @Singleton
-    Invoker provideInvoker(JobManager jobManager) {
-        return new InvokerImp(jobManager);
+    Invoker<Name> provideInvokerName(JobManager jobManager) {
+        return new InvokerImp<>(jobManager);
+    }
+
+    @Provides @Singleton
+    Invoker<String> provideInvokerString(JobManager jobManager) {
+        return new InvokerImp<>(jobManager);
     }
 
     // Services
@@ -146,23 +150,23 @@ public class AppModule {
 
     // Events (No pueden ser singleton ya que tienen estado)
 
-    @Provides @Named("jokesList") DataEvent provideJokesListEvent() {
+    @Provides DataEvent<List<Joke>> provideJokesListEvent() {
         return new DataEvent<>();
     }
 
-    @Provides @Named("joke") DataEvent provideJokeEvent() {
+    @Provides DataEvent<Joke> provideJokeEvent() {
         return new DataEvent<>();
     }
 
     // Interactors (No pueden ser singleton ya que Event se debe de generar para cada instancia)
 
     @Provides
-    LoadJokesInteractor provideLoadJokesInteractor(Bus bus, @Named("jokesList") DataEvent<List<Joke>> event, JokesRepository repository) {
+    LoadJokesInteractor provideLoadJokesInteractor(Bus bus, DataEvent<List<Joke>> event, JokesRepository repository) {
         return new LoadJokesInteractor(bus, event, repository);
     }
 
     @Provides
-    GetJokeInteractor provideGetJokeInteractor(Bus bus, @Named("joke") DataEvent<Joke> event, JokesRepository repository) {
+    GetJokeInteractor provideGetJokeInteractor(Bus bus, DataEvent<Joke> event, JokesRepository repository) {
         return new GetJokeInteractor(bus, event, repository);
     }
 

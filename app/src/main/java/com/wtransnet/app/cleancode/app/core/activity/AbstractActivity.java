@@ -11,7 +11,11 @@ import com.wtransnet.app.cleancode.app.core.application.JokesApplication;
 import com.wtransnet.app.cleancode.app.core.error.CommonErrorHandler;
 import com.wtransnet.app.cleancode.presentation.core.error.ErrorHandler;
 import com.wtransnet.app.cleancode.presentation.core.presenter.AbstractPresenter;
+import com.wtransnet.app.cleancode.presentation.core.presenter.Presenter;
 import com.wtransnet.app.cleancode.presentation.core.view.BaseView;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import javax.inject.Inject;
 
@@ -36,6 +40,8 @@ public abstract class AbstractActivity<T1, T2, V extends BaseView> extends AppCo
     @Optional @InjectView (R.id.toolbar)
     Toolbar toolbar;
 
+    private AbstractPresenter presenter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +50,8 @@ public abstract class AbstractActivity<T1, T2, V extends BaseView> extends AppCo
 
         injectDependencies();
         injectViewDependencies();
+
+        addPresentedAnnotated();
 
         attachToolbarTitle();
         attachView();
@@ -55,7 +63,7 @@ public abstract class AbstractActivity<T1, T2, V extends BaseView> extends AppCo
         super.onResume();
 
         if (checkHasPresenter()) {
-            getPresenter().onResume();
+            presenter.onResume();
         }
 
     }
@@ -65,7 +73,7 @@ public abstract class AbstractActivity<T1, T2, V extends BaseView> extends AppCo
         super.onPause();
 
         if (checkHasPresenter()) {
-            getPresenter().onPause();
+            presenter.onPause();
         }
 
     }
@@ -75,7 +83,7 @@ public abstract class AbstractActivity<T1, T2, V extends BaseView> extends AppCo
         super.onDestroy();
 
         if (checkHasPresenter()) {
-            getPresenter().detachView();
+            presenter.detachView();
         }
 
     }
@@ -110,13 +118,51 @@ public abstract class AbstractActivity<T1, T2, V extends BaseView> extends AppCo
     private void attachView() {
 
         if (checkHasPresenter()) {
-            getPresenter().attachView((V) this);
+            presenter.attachView((V) this);
         }
 
     }
 
     private boolean checkHasPresenter() {
-        return getPresenter() != null;
+        return presenter != null;
+    }
+
+    private void addPresentedAnnotated() {
+
+        if (getPresenter() != null) {
+
+            for (Field field : getClass().getDeclaredFields()) {
+
+                if (field.isAnnotationPresent(Presenter.class)) {
+
+                    if (!Modifier.isPublic(field.getModifiers())) {
+
+                        throw new RuntimeException(
+                                "Presenter must be accessible for this class. Change visibility to public");
+
+                    } else {
+
+                        try {
+
+                            presenter = (AbstractPresenter) field.get(this);
+
+                        } catch (IllegalAccessException e) {
+
+                            RuntimeException runtimeException = new RuntimeException("The presenter " +
+                                    field.getName() + " can not be access");
+                            runtimeException.initCause(e);
+                            throw runtimeException;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
     }
 
 }

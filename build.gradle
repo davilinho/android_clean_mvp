@@ -15,7 +15,8 @@ buildscript {
 allprojects {
 
     ext {
-        androidSupportV7    = 'com.android.support:appcompat-v7:22.1.1'
+        androidSupportV7    = 'com.android.support:appcompat-v7:22.2.0'
+        androidDesign       = 'com.android.support:design:22.2.0'
         butterknife         = 'com.jakewharton:butterknife:6.1.0'
         dagger              = 'com.squareup.dagger:dagger:1.2.2'
         daggerCompiler      = 'com.squareup.dagger:dagger-compiler:1.2.2'
